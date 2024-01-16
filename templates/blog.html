@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block container_jumbo %}
+    <h1>Blog na Bloka</h1>
+    <p>Welcomeeeee</p>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            {% for post in all_posts %}
+                <div class="col-md-6">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h2 class="card-title">{{ post.title }}</h2>
+                            <p class="card-text">{{ post.content }}</p>
+                            <p class="card-subtitle text-muted">Posted by {{ post.author }} on {{ post.date }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

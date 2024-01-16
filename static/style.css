@@ -1,0 +1,22 @@
+/*navbar right styling*/
+
+.navbar-right {
+      margin-right: 20px; /* Adjust the margin as needed */
+    }
+
+/* Custom styles for the navbar */
+.navbar {
+  background-color: #333; /* Change background color as needed */
+}
+
+.navbar-brand {
+  color: #fff; /* Change text color as needed */
+}
+
+.navbar-nav li a {
+  color: #fff; /* Change link text color as needed */
+}
+
+.navbar-nav li a:hover {
+  color: #ff0; /* Change link text color on hover as needed */
+}
