@@ -1,0 +1,19 @@
+<!-- dayquote.html -->
+
+{% extends 'base.html' %}
+
+{% block container_jumbo %}
+<div class="jumbotron">
+  <h1 class="centered-text">Quote of the day (JavaScript)</h1>
+  <p id="quote">{{ quote }}</p>
+  <button onclick="fetchQuote()">Get Quote (JavaScript)</button>
+</div>
+
+<div class="jumbotron">
+  <h1 class="centered-text">Quote of the day (Python)</h1>
+  <p id="pythonQuote">{{ python_quote }}</p>
+  <button onclick="fetchPythonQuote()">Get New Quote (Python)</button>
+</div>
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+{% endblock %}
