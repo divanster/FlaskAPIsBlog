@@ -1,7 +1,9 @@
-from flask import Flask, render_template, jsonify, request, redirect
+from builtins import print, len, int
+
+from flask import Flask, render_template, jsonify, request, redirect, flash
 import requests
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField,EmailField, validators
+from wtforms import StringField, PasswordField, EmailField, validators
 from wtforms.validators import DataRequired
 from flask_sslify import SSLify  # Install via pip for enforcing HTTPS
 import secrets
@@ -11,6 +13,7 @@ sslify = SSLify(app)  # Enforce HTTPS
 
 # Use a strong, randomly generated secret key
 app.config['SECRET_KEY'] = secrets.token_hex(16)  # Set a secure secret key
+
 
 class MyForm(FlaskForm):
     name = StringField('Names', validators=[DataRequired()])
@@ -25,6 +28,7 @@ def get_post_by_id(post_id):
             return post
     return None
 
+
 @app.route("/post/<int:post_id>")
 def post_detail(post_id):
     post = get_post_by_id(post_id)
@@ -33,15 +37,18 @@ def post_detail(post_id):
     else:
         return render_template('post_not_found.html'), 404
 
+
 def get_dummy_posts():
     try:
-        response = requests.get("https://gist.githubusercontent.com/gellowg/389b1e4d6ff8effac71badff67e4d388/raw/fc31e41f8e1a6b713eafb9859f3f7e335939d518/data.json")
+        response = requests.get("https://gist.githubusercontent.com/gellowg/389b1e4d6ff8effac71badff67e4d388/raw"
+                                "/fc31e41f8e1a6b713eafb9859f3f7e335939d518/data.json")
         response.raise_for_status()
         posts = response.json()
         return posts
     except requests.exceptions.RequestException as e:
         print(f"Error fetching data from the API: {e}")
         return []
+
 
 @app.route("/api/new_quote", methods=['GET', 'POST'])
 def new_quote():
@@ -51,6 +58,7 @@ def new_quote():
     elif request.method == 'POST':
         new_python_quote = get_python_quote()
         return jsonify({'quote': new_python_quote})
+
 
 def get_kanye_quote():
     try:
@@ -62,6 +70,7 @@ def get_kanye_quote():
         print(f"Error fetching data from the API: {e}")
         return None
 
+
 def get_python_quote():
     try:
         response = requests.get("https://api.kanye.rest/")
@@ -72,9 +81,11 @@ def get_python_quote():
         print(f"Error fetching data from the API: {e}")
         return "Failed to fetch Python-generated quote."
 
+
 @app.route("/")
 def home():
     return render_template('home.html')
+
 
 # Testing some functionalities in the project
 @app.route('/test', methods=['GET', 'POST'])
@@ -84,6 +95,10 @@ def test():
         return "You Did it!"
     return render_template('test.html', form=form)
 
+
+from flask import flash
+
+
 @app.route("/loging", methods=["POST", "GET"])
 def loging():
     if request.method == 'POST':
@@ -91,20 +106,23 @@ def loging():
         password = request.form["password"]
         print("Received username:", name)
         print("Received password:", password)
-        return f"<h1>Name: {name}, Password: {password}</h1>"
-    else:
-        return render_template('loging.html')
+        flash("Your form was submitted successfully!", "success")  # Fix the typo in "success"
+        # return f"<h1>Name: {name}, Password: {password}"
+    return render_template('loging.html')
+
 
 @app.route("/quotes")
 def quotes():
     quote = get_kanye_quote()
     return render_template('dayquote.html', quote=quote, python_quote=get_python_quote())
 
+
 # ... (remaining code)
 
 @app.route("/about")
 def about():
     return render_template('about.html')
+
 
 @app.route("/blog")
 def blog():
@@ -121,6 +139,7 @@ def blog():
         'pages': len(all_posts) // posts_per_page + (1 if len(all_posts) % posts_per_page > 0 else 0)
     }
     return render_template('blog.html', posts=paginated_posts, pagination=pagination)
+
 
 if __name__ == '__main__':
     app.run(debug=True)

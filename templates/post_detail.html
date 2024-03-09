@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>{{ post.title }}</h1>
+                <p class="card-subtitle text-muted">Posted by {{ post.author }} on {{ post.date }}</p>
+                <img src="{{ post.image }}" alt="{{ post.title }}" class="img-fluid">
+                <p>{{ post.content }}</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
